@@ -1,0 +1,38 @@
+[
+  {
+    "id": "d1",
+    "title": "Winfred Lesley",
+    "job": "Teeth whitening",
+    "color": "#d1891f",
+    "start": "2023-08-04T08:00",
+    "end": "2023-08-04T09:30",
+    "unscheduled": true
+  },
+  {
+    "id": "d2",
+    "title": "Rosalin Delice",
+    "job": "Crown and bridge",
+    "color": "#1ca11a",
+    "start": "2023-08-04T08:00",
+    "end": "2023-08-04T10:00",
+    "unscheduled": true
+  },
+  {
+    "id": "d3",
+    "title": "Macy Steven",
+    "job": "Root canal treatment",
+    "color": "#cb3939",
+    "start": "2023-08-04T10:00",
+    "end": "2023-08-04T12:30",
+    "unscheduled": true
+  },
+  {
+    "id": "d4",
+    "title": "Lavern Cameron",
+    "job": "Tartar removal",
+    "color": "#a446b5",
+    "start": "2023-08-04T12:00",
+    "end": "2023-08-04T13:00",
+    "unscheduled": true
+  }
+]
