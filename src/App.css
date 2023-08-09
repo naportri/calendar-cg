@@ -2,12 +2,13 @@
   border: 3px solid #e4e4e4;
   border-radius: 12px;
   border-style: dashed;
-  max-width: 90vw;
+  max-width: 95vw;
 }
 .docs-appointment-calendar {
-  border-bottom: 1px solid #ccc;
+  border: 1px solid #ccc;
   max-height: 75vh;
-  margin: 0px 10px;
+  margin: 0px;
+  padding: 0px 2px;
 }
 
 .docs-appointment-calendar .mbsc-readonly-event {
@@ -36,6 +37,14 @@
 .demo-doctors-appointment .mbsc-row,
 .demo-doctors-appointment .docs-appointment-calendar {
   height: 100%;
+}
+
+.mbsc-ios.mbsc-calendar-controls {
+  display: none;
+}
+
+.mbsc-ios.mbsc-schedule-date-header-text{
+  font-size: 1.2rem;
 }
 
 .md-tooltip .mbsc-popup-content {
@@ -90,22 +99,24 @@
   width: 100px;
 }
 
+/* Resource Header Styles */
+
 .resource-template-content {
-  position: relative;
-  padding: 15px 0px 0px 80px;
-  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 5px 0px;
+
 }
 
 .resource-avatar {
-  position: absolute;
-  max-height: 50px;
-  max-width: 50px;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  left: 40px;
+  max-height: 30px;
+  max-width: 30px;
+  margin: 0px 20px;
 }
 
 .resource-name {
   font-size: 16px;
+  text-align: center;
 }

@@ -19,7 +19,7 @@ export const Appointment = ({ data }: any) => {
         <div
           ref={setDragElm}
           className="docs-appointment-task"
-          style={{ background: event.color }}
+          style={{ background: event.color, color: 'black' }}
         >
           <div>{event.title} - {eventLength + " hour" + (eventLength > 1 ? "s" : "")}</div>
           <Draggable dragData={event} element={draggable} />

@@ -1,44 +1,128 @@
 [
   {
     "id": "job1",
-    "start": "2023-08-07T14:00",
-    "end": "2023-08-07T16:00",
+    "start": "2023-08-09T14:00",
+    "end": "2023-08-09T16:00",
     "resource": 1,
     "title": "Myla Bennett",
     "job": "Wisdom tooth removal",
-    "color": "#334ab9"
+    "color": "#334ab9",
+    "category": 2
   },
   {
     "id": "job2",
-    "start": "2023-08-07T17:00",
-    "end": "2023-08-07T18:30",
+    "start": "2023-08-09T17:00",
+    "end": "2023-08-09T18:30",
     "resource": 1,
     "title": "Beatrix Foley",
     "job": "Braces",
-    "color": "#177e70"
+    "color": "#177e70",
+    "category": 3
   },
   {
     "id": "job3",
-    "start": "2023-08-07T08:00",
-    "end": "2023-08-07T09:30",
+    "start": "2023-08-09T08:00",
+    "end": "2023-08-09T09:30",
     "resource": 3,
     "title": "Frank Watson",
     "job": "Teeth whitening",
-    "color": "#d1891f"
+    "color": "#d1891f",
+    "category": 3
   },
   {
     "id": "job4",
-    "start": "2023-08-07T10:00",
-    "end": "2023-08-07T12:30",
+    "start": "2023-08-09T10:00",
+    "end": "2023-08-09T12:30",
     "resource": 3,
     "title": "Jaime Joyce",
     "job": "Root canal treatment",
-    "color": "#cb3939"
+    "color": "#cb3939",
+    "category": 1
   },
   {
     "id": "job5",
-    "start": "2023-08-07T13:00",
-    "end": "2023-08-07T14:00",
+    "start": "2023-08-09T13:00",
+    "end": "2023-08-09T14:00",
+    "resource": 3,
+    "title": "Corey Shepard",
+    "job": "Tooth extraction",
+    "color": "#aba343",
+    "category":1
+  },
+  {
+    "id": "job6",
+    "start": "2023-08-09T14:00",
+    "end": "2023-08-09T16:00",
+    "resource": 4,
+    "title": "Callie Leonard",
+    "job": "Crown and bridge",
+    "color": "#1ca11a",
+    "category": 1
+  },
+  {
+    "id": "job7",
+    "start": "2023-08-09T17:00",
+    "end": "2023-08-09T18:00",
+    "resource": 4,
+    "title": "Harley Thomson",
+    "job": "Tartar removal",
+    "color": "#a446b5",
+    "category": 4
+  },
+  {
+    "id": "job8",
+    "start": "2023-08-09T09:00",
+    "end": "2023-08-09T11:00",
+    "resource": 6,
+    "title": "Ricky Welch",
+    "job": "Wisdom tooth removal",
+    "color": "#334ab9",
+    "category": 4
+  },
+  {
+    "id": "job1",
+    "start": "2023-08-10T14:00",
+    "end": "2023-08-10T16:00",
+    "resource": 1,
+    "title": "Myla Bennett",
+    "job": "Wisdom tooth removal",
+    "color": "#334ab9",
+    "category": 4
+  },
+  {
+    "id": "job2",
+    "start": "2023-08-11T17:00",
+    "end": "2023-08-11T18:30",
+    "resource": 2,
+    "title": "Beatrix Foley",
+    "job": "Braces",
+    "color": "#177e70",
+    "category": 2
+  },
+  {
+    "id": "job3",
+    "start": "2023-08-10T08:00",
+    "end": "2023-08-10T09:30",
+    "resource": 3,
+    "title": "Frank Watson",
+    "job": "Teeth whitening",
+    "color": "#d1891f",
+    "category": 1
+  },
+  {
+    "id": "job4",
+    "start": "2023-08-11T11:00",
+    "end": "2023-08-11T10:30",
+    "resource": 3,
+    "title": "Jaime Joyce",
+    "job": "Root canal treatment",
+    "color": "#cb3939",
+    "category": 4
+  },
+  {
+    "id": "job5",
+    "start": "2023-08-11T13:00",
+    "end": "2023-08-11T14:00",
     "resource": 3,
     "title": "Corey Shepard",
     "job": "Tooth extraction",
@@ -46,17 +130,18 @@
   },
   {
     "id": "job6",
-    "start": "2023-08-07T14:00",
-    "end": "2023-08-07T16:00",
+    "start": "2023-08-11T14:00",
+    "end": "2023-08-11T16:00",
     "resource": 4,
     "title": "Callie Leonard",
     "job": "Crown and bridge",
-    "color": "#1ca11a"
+    "color": "#1ca11a",
+    "category": 2
   },
   {
     "id": "job7",
-    "start": "2023-08-07T17:00",
-    "end": "2023-08-07T18:00",
+    "start": "2023-08-11T17:00",
+    "end": "2023-08-11T18:00",
     "resource": 4,
     "title": "Harley Thomson",
     "job": "Tartar removal",
@@ -64,9 +149,9 @@
   },
   {
     "id": "job8",
-    "start": "2023-08-07T09:00",
-    "end": "2023-08-07T11:00",
-    "resource": 6,
+    "start": "2023-08-11T09:00",
+    "end": "2023-08-11T11:00",
+    "resource": 1,
     "title": "Ricky Welch",
     "job": "Wisdom tooth removal",
     "color": "#334ab9"

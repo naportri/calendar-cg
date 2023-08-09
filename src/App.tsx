@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, FC, useMemo } from "react";
+import dayjs from "dayjs";
 import {
   Eventcalendar,
   Dropcontainer,
@@ -12,16 +13,16 @@ import {
   Popup,
   Toast,
   Button,
+  Datepicker,
 } from "@mobiscroll/react";
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 import classNames from "classnames";
-import eventsA from "./mockData/events-a.json";
-import eventsB from "./mockData/events-b.json";
+import events from "./mockData/events-a.json";
 import pendingAppointments from "./mockData/pendingAppointments.json";
 import employees from "./mockData/employees.json";
 import { Appointment } from "./components/Appointment";
-import { invalidHours, today } from "./mockData/utils";
 import "./App.css";
+import { resourceHeader, renderScheduleEvent, invalidHours, today, defaultColors } from "./utils";
 
 setOptions({
   locale: localeEs,
@@ -29,20 +30,12 @@ setOptions({
   themeVariant: "light",
 });
 
-const App: React.FC = () => {
-  const renderCustomResource = (resource: any) => {
-    return (
-      <div className="resource-template-content">
-        <img className="resource-avatar" width="20%" src={resource.img} alt='avatar img' />
-        <div className="resource-name">{resource.name}</div>
-      </div>
-    );
-  };
-
+const App: FC = () => {
   const [appointments, setAppointments] =
-    React.useState<MbscCalendarEvent[]>(pendingAppointments);
+    useState<MbscCalendarEvent[]>(pendingAppointments);
+  const [timeZoom, setTimeZoom] = useState<number>(15);
 
-  const view = React.useMemo<MbscEventcalendarView>(() => {
+  const view = useMemo<MbscEventcalendarView>(() => {
     return {
       schedule: {
         type: "day",
@@ -50,42 +43,32 @@ const App: React.FC = () => {
         startTime: "08:00",
         endTime: "20:00",
         allDay: false,
-        timeCellStep: 5, // tiempo en el que se pone la linea del separado
-        timeLabelStep: 5, // tiempo que se pone en la cuadricula lateral
+        timeCellStep: timeZoom, // tiempo en el que se pone la linea del separado
+        timeLabelStep: timeZoom, // tiempo que se pone en la cuadricula lateral
       },
     };
-  }, []);
+  }, [timeZoom]);
 
-  const secondView = React.useMemo<MbscEventcalendarView>(() => {
+  const secondView = useMemo<MbscEventcalendarView>(() => {
     return {
       schedule: {
         type: "day",
-        size: 3,
-        startTime: "08:00",
-        endTime: "20:00",
+        size: 1,
+        startDay: 1,
+        endDay: 6,
         allDay: false,
-        timeCellStep: 30, // tiempo en el que se pone la linea del separado
-        timeLabelStep: 30, // tiempo que se pone en la cuadricula lateral
+        timeCellStep: 60, // tiempo en el que se pone la linea del separado
+        timeLabelStep: 60, // tiempo que se pone en la cuadricula lateral
         currentTimeIndicator: false,
       },
     };
   }, []);
 
-  const [contBg, setContBg] = React.useState<string>("");
-  const [myColors, setColors] = React.useState<any>([]);
-  const [dropCont, setDropCont] = React.useState<any>();
-
-  const setDropElm = React.useCallback((elm: any) => {
-    setDropCont(elm);
-  }, []);
-
-  const hasOverlap = (event: any, inst: any) => {
-    const events = inst
-      .getEvents(event.start, event.end)
-      .filter((e: any) => e.id !== event.id && e.resource === event.resource);
-    return events.length > 0;
-  };
-
+  const [refDate, setRefDate] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [contBg, setContBg] = useState<string>("");
+  const [myColors, setColors] = useState<any>(defaultColors);
+  const [dropCont, setDropCont] = useState<any>();
   const [isOpen, setOpen] = useState<boolean>(false);
   const [anchor, setAnchor] = useState<any>(null);
   const [currentEvent, setCurrentEvent] = useState<any>(null);
@@ -100,12 +83,23 @@ const App: React.FC = () => {
   const [toastText, setToastText] = useState<string>();
   const [dobleCalendar, setDobleCalendar] = useState(false);
 
+  const setDropElm = useCallback((elm: any) => {
+    setDropCont(elm);
+  }, []);
+
+  const hasOverlap = (event: any, inst: any) => {
+    const events = inst
+      .getEvents(event.start, event.end)
+      .filter((e: any) => e.id !== event.id && e.resource === event.resource);
+    return events.length > 0;
+  };
+
   const onEventCreate = React.useCallback(
     (args: any) => {
       const event = args.event;
       const inst = args.inst;
       event.unscheduled = false;
-      setColors([]);
+      setColors(defaultColors);
 
       if (hasOverlap(event, inst)) {
         toast({
@@ -166,13 +160,13 @@ const App: React.FC = () => {
     [openTooltip]
   );
 
-  const onEventHoverOut = React.useCallback(() => {
+  const onEventHoverOut = useCallback(() => {
     timerRef.current = setTimeout(() => {
       setOpen(false);
     }, 200);
   }, []);
 
-  const onEventDelete = React.useCallback((args: any) => {
+  const onEventDelete = useCallback((args: any) => {
     if (args.action === "externalDrop" && dobleCalendar) {
       toast({
         message: "Evento reprogramado",
@@ -184,24 +178,18 @@ const App: React.FC = () => {
     }
   }, []);
 
-  const onEventDragEnter = React.useCallback(() => {
-    setColors([
-      {
-        background: "#f1fff24d",
-        start: "08:00",
-        end: "20:00",
-        recurring: {
-          repeat: "daily",
-        },
-      },
-    ]);
+  const onEventDragEnter = useCallback(() => {
+    setTimeZoom(5);
   }, []);
 
-  const onEventDragLeave = React.useCallback(() => {
-    setColors([]);
+  const onEventDragLeave = useCallback(() => {
+    setTimeZoom(15);
+    setColors(defaultColors);
   }, []);
 
-  const onItemDrop = React.useCallback(
+  /* Funciones del Ascensor */
+
+  const onItemDrop = useCallback(
     (args: any) => {
       if (args.data) {
         args.data.unscheduled = true;
@@ -212,29 +200,29 @@ const App: React.FC = () => {
     [appointments]
   );
 
-  const onItemDragEnter = React.useCallback((args: any) => {
+  const onItemDragEnter = useCallback((args: any) => {
     if (!(args.data && args.data.unscheduled)) {
       setContBg("#d0e7d2cc");
     }
   }, []);
 
-  const onItemDragLeave = React.useCallback(() => {
+  const onItemDragLeave = useCallback(() => {
     setContBg("");
   }, []);
 
-  const onMouseEnter = React.useCallback(() => {
+  const onMouseEnter = useCallback(() => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
   }, []);
 
-  const onMouseLeave = React.useCallback(() => {
+  const onMouseLeave = useCallback(() => {
     timerRef.current = setTimeout(() => {
       setOpen(false);
     }, 200);
   }, []);
 
-  const setStatusButton = React.useCallback(() => {
+  const setStatusButton = useCallback(() => {
     setOpen(false);
     const index = appointments.findIndex(
       (item: any) => item.id === currentEvent.id
@@ -247,12 +235,12 @@ const App: React.FC = () => {
     );
   }, [appointments, currentEvent]);
 
-  const showToast = React.useCallback((message: string) => {
+  const showToast = useCallback((message: string) => {
     setToastText(message);
     setToastOpen(true);
   }, []);
 
-  const deleteApp = React.useCallback(() => {
+  const deleteApp = useCallback(() => {
     setAppointments(
       appointments.filter((item: any) => item.id !== currentEvent.id)
     );
@@ -260,7 +248,7 @@ const App: React.FC = () => {
     showToast("Appointment deleted");
   }, [appointments, currentEvent]);
 
-  const closeToast = React.useCallback(() => {
+  const closeToast = useCallback(() => {
     setToastOpen(false);
   }, []);
 
@@ -274,14 +262,18 @@ const App: React.FC = () => {
     [`${calendarContainer}-12`]: !dobleCalendar,
   });
 
+  const onChangeDate = useCallback((event: any) => {
+    setSelectedDate(event.value);
+    setRefDate(dayjs(event.value).add(1, "days").format("YYYY-MM-DD"));
+  }, []);
+
   return (
-    <div className="mbsc-grid mbsc-no-padding main-container">
+    <div className="mbsc-grid main-container">
       <div className="mbsc-row mbsc-justify-content-center">
-        <div className="mbsc-col-sm-12">
+        <div className="mbsc-col-sm-12 mbsc-justify-content-center">
           <Button
             color="primary"
             variant="outline"
-            className="md-tooltip-status-button"
             onClick={setDobleCalendarView}
           >
             Vista Doble
@@ -289,60 +281,77 @@ const App: React.FC = () => {
         </div>
       </div>
       <div className="mbsc-row mbsc-justify-content-center">
-        <div
-          className={`${calendarContainerClasses} docs-appointment-calendar`}
-        >
-          <Eventcalendar
-            data={eventsA}
-            view={view}
-            refDate={"2023-08-15"} // TODO Esto no funciona ? 
-            resources={employees}
-            clickToCreate={true}
-            dragToMove={true}
-            dragToCreate={true}
-            externalDrop={true}
-            externalDrag={true}
-            colors={myColors}
-            onEventCreate={onEventCreate}
-            onEventDelete={onEventDelete}
-            onEventDragEnter={onEventDragEnter}
-            onEventDragLeave={onEventDragLeave}
-            showEventTooltip={false}
-            onEventHoverIn={onEventHoverIn}
-            onEventHoverOut={onEventHoverOut}
-            dragBetweenResources={true} // propiedad para mover entre recursos
-            dragToResize={true} // propiedad para ampliar el job
-            invalid={invalidHours} // invalidar horario (ej. comida)
-            renderResource={renderCustomResource} // customizar cabecera con html
-          />
-        </div>
-        {dobleCalendar && (
-          <div className={`mbsc-col-sm-7 docs-appointment-calendar`}>
-            <Eventcalendar
-              data={eventsB}
-              view={secondView}
-              refDate={"2023-08-15"}
-              resources={employees}
-              clickToCreate={true}
-              dragToMove={true}
-              dragToCreate={true}
-              externalDrop={true}
-              externalDrag={true}
-              colors={myColors}
-              onEventCreate={onEventCreate}
-              onEventDelete={onEventDelete}
-              onEventDragEnter={onEventDragEnter}
-              onEventDragLeave={onEventDragLeave}
-              showEventTooltip={false}
-              onEventHoverIn={onEventHoverIn}
-              onEventHoverOut={onEventHoverOut}
-              dragBetweenResources={true} // propiedad para mover entre recursos
-              dragToResize={true} // propiedad para ampliar el job
-              invalid={invalidHours} // invalidar horario (ej. comida)
-              renderResource={renderCustomResource} // customizar cabecera con html
+        <div className="mbsc-col-sm-2" style={{ padding: "1px" }}>
+          <div style={{ height: "300px" }}>
+            <Datepicker
+              controls={["calendar"]}
+              display="inline"
+              touchUi={true}
+              onChange={onChangeDate}
+              value={selectedDate}
             />
           </div>
-        )}
+        </div>
+        <div className="mbsc-col-sm-10">
+          <div className="mbsc-row mbsc-justify-content-center">
+            <div
+              className={`${calendarContainerClasses} docs-appointment-calendar`}
+            >
+              <Eventcalendar
+                data={events}
+                view={view}
+                selectedDate={selectedDate}
+                resources={employees}
+                clickToCreate={true}
+                dragToMove={true}
+                dragToCreate={true}
+                externalDrop={true}
+                externalDrag={true}
+                colors={myColors} // Define colores de la columna, pueden declararse rangos horarios, o diferentes colores de fondo a diferentes recursos. Ej: Columna No Show podria ser diferente?
+                onEventCreate={onEventCreate}
+                onEventDelete={onEventDelete}
+                onEventDragEnter={onEventDragEnter}
+                onEventDragLeave={onEventDragLeave}
+                showEventTooltip={false}
+                onEventHoverIn={onEventHoverIn}
+                onEventHoverOut={onEventHoverOut}
+                dragBetweenResources={true} // propiedad para mover entre recursos
+                dragToResize={true} // propiedad para ampliar el job
+                invalid={invalidHours} // invalidar horario (ej. comida)
+                renderResource={resourceHeader} // customizar cabecera con html
+                renderScheduleEvent={renderScheduleEvent}
+              />
+            </div>
+            {dobleCalendar && (
+              <div className={`mbsc-col-sm-8 docs-appointment-calendar`}>
+                <Eventcalendar
+                  data={events}
+                  view={secondView}
+                  selectedDate={refDate}
+                  resources={employees}
+                  clickToCreate={true}
+                  dragToMove={true}
+                  dragToCreate={true}
+                  externalDrop={true}
+                  externalDrag={true}
+                  colors={myColors}
+                  onEventCreate={onEventCreate}
+                  onEventDelete={onEventDelete}
+                  onEventDragEnter={onEventDragEnter}
+                  onEventDragLeave={onEventDragLeave}
+                  showEventTooltip={true}
+                  onEventHoverIn={onEventHoverIn}
+                  onEventHoverOut={onEventHoverOut}
+                  dragBetweenResources={true} // propiedad para mover entre recursos
+                  dragToResize={true} // propiedad para ampliar el job
+                  invalid={invalidHours} // invalidar horario (ej. comida)
+                  renderResource={resourceHeader} // customizar cabecera con html
+                  renderScheduleEvent={renderScheduleEvent}
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
       <div className="mbsc-row mbsc-justify-content-center">
         <div className="mbsc-col-sm-12 docs-appointment-cont" ref={setDropElm}>
@@ -361,6 +370,7 @@ const App: React.FC = () => {
           </Dropcontainer>
         </div>
       </div>
+
       <Popup
         display="anchored"
         isOpen={isOpen}
