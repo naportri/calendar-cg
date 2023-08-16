@@ -15,43 +15,43 @@ const getCategory = (id: any) => {
       return {
         name: "Sustitución",
         background: "#ffcfb8",
-        border: '#ff6d24',
-        fontColor: '#ff5500'
+        border: "#ff6d24",
+        fontColor: "#ff5500",
       };
     case 2:
       return {
         name: "Reparación",
         background: "#f3c4ff",
-        border: '#bd75d0',
-        fontColor: '#7d009e'
+        border: "#bd75d0",
+        fontColor: "#7d009e",
       };
     case 3:
       return {
         name: "Plexi",
         background: "#f3f7e1",
-        border: '#86a602',
-        fontColor: '#4f5e0e'
+        border: "#86a602",
+        fontColor: "#4f5e0e",
       };
     case 4:
       return {
         name: "Vaps",
         background: "#fad9e8",
-        border: '#db126a',
-        fontColor: '#8a043e'
+        border: "#db126a",
+        fontColor: "#8a043e",
       };
     case 5:
       return {
         name: "Descendente",
         background: "#daf5f7",
-        border: '#00c5d9',
-        fontColor: '#006d78'
+        border: "#00c5d9",
+        fontColor: "#006d78",
       };
     default:
       return {
         name: "No category",
         background: "#ebebeb",
-        border: '#858585',
-        fontColor: '#363636'
+        border: "#858585",
+        fontColor: "#363636",
       };
   }
 };
@@ -61,7 +61,13 @@ export const renderScheduleEvent = (data: any) => {
   return (
     <div
       className="md-custom-event-cont"
-      style={{ borderLeft: "5px solid " + cat.border, background: cat.background, padding: '8px', height: '100%', overflow: 'hidden' }}
+      style={{
+        borderLeft: "5px solid " + cat.border,
+        background: cat.background,
+        padding: "8px",
+        height: "100%",
+        overflow: "hidden",
+      }}
     >
       <div className="md-custom-event-wrapper">
         <div
@@ -70,15 +76,22 @@ export const renderScheduleEvent = (data: any) => {
         >
           {cat.name}
         </div>
-        <div className="md-custom-event-details" style={{ color: cat.fontColor }}>
+        <div
+          className="md-custom-event-details"
+          style={{ color: cat.fontColor }}
+        >
           <div className="md-custom-event-title">{data.title}</div>
           <div className="md-custom-event-time">
             {data.start} - {data.end}
           </div>
           <div className="mbsc-button-group mbsc-row">
-            <Button icon="tag"  style={{ color: cat.fontColor }}></Button>
+            <Button icon="tag" style={{ color: cat.fontColor }}></Button>
             <Button icon="heart" style={{ color: cat.fontColor }}></Button>
-            <Button icon="flag" disabled style={{ color: cat.fontColor }}></Button>
+            <Button
+              icon="flag"
+              disabled
+              style={{ color: cat.fontColor }}
+            ></Button>
           </div>
         </div>
       </div>
@@ -123,5 +136,4 @@ export const defaultColors = [
 ];
 
 /* Supported values: 1, 5, 10, 15, 20, 30, 60, 120, 180, 240, 360, 480, 720, 1440. In minutes */
-export const timeValues = [5, 10, 15, 20, 30, 60, 120] 
-
+export const timeValues = [5, 10, 15, 20, 30, 60, 120];

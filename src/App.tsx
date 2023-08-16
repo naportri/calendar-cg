@@ -18,11 +18,17 @@ import {
 import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 import classNames from "classnames";
 import events from "./mockData/events-a.json";
-import pendingAppointments from "./mockData/pendingAppointments.json";
 import employees from "./mockData/employees.json";
 import { Appointment } from "./components/Appointment";
 import "./App.css";
-import { resourceHeader, renderScheduleEvent, invalidHours, today, defaultColors, timeValues } from "./utils";
+import {
+  resourceHeader,
+  renderScheduleEvent,
+  invalidHours,
+  today,
+  defaultColors,
+  timeValues,
+} from "./utils";
 
 setOptions({
   locale: localeEs,
@@ -31,8 +37,10 @@ setOptions({
 });
 
 const App: FC = () => {
-  const [appointments, setAppointments] =
-    useState<MbscCalendarEvent[]>(pendingAppointments);
+  const [appointments, setAppointments] = useState<MbscCalendarEvent[]>(
+    events.filter((item) => item.unscheduled)
+  );
+  const [myEvents, setEvents] = React.useState<MbscCalendarEvent[]>(events);
   const [timeZoom, setTimeZoom] = useState<number>(2);
 
   const view = useMemo<MbscEventcalendarView>(() => {
@@ -99,6 +107,7 @@ const App: FC = () => {
       const event = args.event;
       const inst = args.inst;
       event.unscheduled = false;
+      event.color = "#363636";
       setColors(defaultColors);
 
       if (hasOverlap(event, inst)) {
@@ -111,14 +120,20 @@ const App: FC = () => {
           message: "Can't add event in the past",
         });
         return false;
+      } else if (args.action === "externalDrop") {
+        setTimeout(() => {
+          toast({
+            message: "Evento reprogramado",
+          });
+        }, 1000);
+        setAppointments(appointments.filter((item) => item.id !== event.id));
       } else {
         toast({
           message: args.event.title + " added",
         });
-        setAppointments(appointments.filter((item) => item.id !== event.id));
       }
     },
-    [appointments]
+    [appointments, myEvents]
   );
 
   const openTooltip = useCallback((args: any, closeOption: any) => {
@@ -167,15 +182,9 @@ const App: FC = () => {
   }, []);
 
   const onEventDelete = useCallback((args: any) => {
-    if (args.action === "externalDrop" && dobleCalendar) {
-      toast({
-        message: "Evento reprogramado",
-      });
-    } else {
-      toast({
-        message: args.event.title + " unscheduled",
-      });
-    }
+    toast({
+      message: args.event.title + " desprogramado",
+    });
   }, []);
 
   /* const onEventDragEnter = useCallback(() => {
@@ -223,17 +232,17 @@ const App: FC = () => {
   }, []);
 
   const setStatusButton = useCallback(() => {
-    setOpen(false);
-    const index = appointments.findIndex(
+    const index = myEvents.findIndex(
       (item: any) => item.id === currentEvent.id
     );
-    const newApp = [...appointments];
-    newApp[index].confirmed = !appointments[index].confirmed;
-    setAppointments(newApp);
+    const newApp = [...myEvents];
+    newApp[index].confirmed = !myEvents[index].confirmed;
+    setEvents(newApp);
     showToast(
       "Appointment " + (currentEvent.confirmed ? "confirmed" : "canceled")
     );
-  }, [appointments, currentEvent]);
+    setOpen(false);
+  }, [myEvents, currentEvent]);
 
   const showToast = useCallback((message: string) => {
     setToastText(message);
@@ -241,12 +250,10 @@ const App: FC = () => {
   }, []);
 
   const deleteApp = useCallback(() => {
-    setAppointments(
-      appointments.filter((item: any) => item.id !== currentEvent.id)
-    );
+    setEvents(myEvents.filter((item: any) => item.id !== currentEvent.id));
     setOpen(false);
     showToast("Appointment deleted");
-  }, [appointments, currentEvent]);
+  }, [myEvents, currentEvent]);
 
   const closeToast = useCallback(() => {
     setToastOpen(false);
@@ -268,16 +275,16 @@ const App: FC = () => {
   }, []);
 
   const onZoomInTime = () => {
-    if (timeZoom < timeValues.length - 1){
-      setTimeZoom(timeZoom + 1)
+    if (timeZoom < timeValues.length - 1) {
+      setTimeZoom(timeZoom + 1);
     }
-  }
+  };
 
   const onZoomOutTime = () => {
-    if (timeZoom > 0){
-      setTimeZoom(timeZoom - 1)
+    if (timeZoom > 0) {
+      setTimeZoom(timeZoom - 1);
     }
-  }
+  };
 
   return (
     <div className="mbsc-grid main-container">
@@ -291,7 +298,7 @@ const App: FC = () => {
             Vista Doble
           </Button>
           <Button variant="flat" onClick={onZoomOutTime} icon="minus"></Button>
-          <Button variant="flat" >{timeValues[timeZoom]}</Button>
+          <Button variant="flat">{timeValues[timeZoom]}</Button>
           <Button variant="flat" onClick={onZoomInTime} icon="plus"></Button>
         </div>
       </div>
@@ -313,7 +320,7 @@ const App: FC = () => {
               className={`${calendarContainerClasses} docs-appointment-calendar`}
             >
               <Eventcalendar
-                data={events}
+                data={myEvents}
                 view={view}
                 selectedDate={selectedDate}
                 resources={employees}
@@ -340,7 +347,7 @@ const App: FC = () => {
             {dobleCalendar && (
               <div className={`mbsc-col-sm-8 docs-appointment-calendar`}>
                 <Eventcalendar
-                  data={events}
+                  data={myEvents}
                   view={secondView}
                   selectedDate={refDate}
                   resources={employees}
