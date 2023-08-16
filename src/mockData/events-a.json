@@ -1,8 +1,8 @@
 [
   {
     "id": "job1",
-    "start": "2023-08-09T14:00",
-    "end": "2023-08-09T16:00",
+    "start": "2023-08-16T14:00",
+    "end": "2023-08-16T16:00",
     "resource": 1,
     "title": "Myla Bennett",
     "job": "Wisdom tooth removal",
@@ -11,8 +11,8 @@
   },
   {
     "id": "job2",
-    "start": "2023-08-09T17:00",
-    "end": "2023-08-09T18:30",
+    "start": "2023-08-16T17:00",
+    "end": "2023-08-16T18:30",
     "resource": 1,
     "title": "Beatrix Foley",
     "job": "Braces",
@@ -21,18 +21,19 @@
   },
   {
     "id": "job3",
-    "start": "2023-08-09T08:00",
-    "end": "2023-08-09T09:30",
+    "start": "2023-08-16T08:00",
+    "end": "2023-08-16T09:30",
     "resource": 3,
     "title": "Frank Watson",
     "job": "Teeth whitening",
     "color": "#d1891f",
-    "category": 3
+    "category": 3,
+    "unscheduled": true
   },
   {
     "id": "job4",
-    "start": "2023-08-09T10:00",
-    "end": "2023-08-09T12:30",
+    "start": "2023-08-16T10:00",
+    "end": "2023-08-16T12:30",
     "resource": 3,
     "title": "Jaime Joyce",
     "job": "Root canal treatment",
@@ -41,92 +42,14 @@
   },
   {
     "id": "job5",
-    "start": "2023-08-09T13:00",
-    "end": "2023-08-09T14:00",
+    "start": "2023-08-17T13:00",
+    "end": "2023-08-17T14:00",
     "resource": 3,
     "title": "Corey Shepard",
     "job": "Tooth extraction",
     "color": "#aba343",
-    "category":1
-  },
-  {
-    "id": "job6",
-    "start": "2023-08-09T14:00",
-    "end": "2023-08-09T16:00",
-    "resource": 4,
-    "title": "Callie Leonard",
-    "job": "Crown and bridge",
-    "color": "#1ca11a",
-    "category": 1
-  },
-  {
-    "id": "job7",
-    "start": "2023-08-09T17:00",
-    "end": "2023-08-09T18:00",
-    "resource": 4,
-    "title": "Harley Thomson",
-    "job": "Tartar removal",
-    "color": "#a446b5",
-    "category": 4
-  },
-  {
-    "id": "job8",
-    "start": "2023-08-09T09:00",
-    "end": "2023-08-09T11:00",
-    "resource": 6,
-    "title": "Ricky Welch",
-    "job": "Wisdom tooth removal",
-    "color": "#334ab9",
-    "category": 4
-  },
-  {
-    "id": "job1",
-    "start": "2023-08-10T14:00",
-    "end": "2023-08-10T16:00",
-    "resource": 1,
-    "title": "Myla Bennett",
-    "job": "Wisdom tooth removal",
-    "color": "#334ab9",
-    "category": 4
-  },
-  {
-    "id": "job2",
-    "start": "2023-08-11T17:00",
-    "end": "2023-08-11T18:30",
-    "resource": 2,
-    "title": "Beatrix Foley",
-    "job": "Braces",
-    "color": "#177e70",
-    "category": 2
-  },
-  {
-    "id": "job3",
-    "start": "2023-08-10T08:00",
-    "end": "2023-08-10T09:30",
-    "resource": 3,
-    "title": "Frank Watson",
-    "job": "Teeth whitening",
-    "color": "#d1891f",
-    "category": 1
-  },
-  {
-    "id": "job4",
-    "start": "2023-08-11T11:00",
-    "end": "2023-08-11T10:30",
-    "resource": 3,
-    "title": "Jaime Joyce",
-    "job": "Root canal treatment",
-    "color": "#cb3939",
-    "category": 4
-  },
-  {
-    "id": "job5",
-    "start": "2023-08-11T13:00",
-    "end": "2023-08-11T14:00",
-    "resource": 3,
-    "title": "Corey Shepard",
-    "job": "Tooth extraction",
-    "color": "#aba343"
+    "category": 1,
+    "unscheduled": true
   },
   {
     "id": "job6",
@@ -136,21 +59,101 @@
     "title": "Callie Leonard",
     "job": "Crown and bridge",
     "color": "#1ca11a",
-    "category": 2
+    "category": 1
   },
   {
     "id": "job7",
-    "start": "2023-08-11T17:00",
-    "end": "2023-08-11T18:00",
+    "start": "2023-08-10T17:00",
+    "end": "2023-08-10T18:00",
+    "resource": 4,
+    "title": "Harley Thomson",
+    "job": "Tartar removal",
+    "color": "#a446b5",
+    "category": 4,
+    "unscheduled": true
+  },
+  {
+    "id": "job8",
+    "start": "2023-08-16T09:00",
+    "end": "2023-08-16T11:00",
+    "resource": 6,
+    "title": "Ricky Welch",
+    "job": "Wisdom tooth removal",
+    "color": "#334ab9",
+    "category": 4
+  },
+  {
+    "id": "job9",
+    "start": "2023-08-17T14:00",
+    "end": "2023-08-17T16:00",
+    "resource": 1,
+    "title": "Myla Bennett",
+    "job": "Wisdom tooth removal",
+    "color": "#334ab9",
+    "category": 4
+  },
+  {
+    "id": "job10",
+    "start": "2023-08-18T17:00",
+    "end": "2023-08-18T18:30",
+    "resource": 2,
+    "title": "Beatrix Foley",
+    "job": "Braces",
+    "color": "#177e70",
+    "category": 2
+  },
+  {
+    "id": "job11",
+    "start": "2023-08-17T08:00",
+    "end": "2023-08-17T09:30",
+    "resource": 3,
+    "title": "Frank Watson",
+    "job": "Teeth whitening",
+    "color": "#d1891f",
+    "category": 1
+  },
+  {
+    "id": "job12",
+    "start": "2023-08-18T11:00",
+    "end": "2023-08-18T10:30",
+    "resource": 3,
+    "title": "Jaime Joyce",
+    "job": "Root canal treatment",
+    "color": "#cb3939",
+    "category": 4
+  },
+  {
+    "id": "job13",
+    "start": "2023-08-19T13:00",
+    "end": "2023-08-19T14:00",
+    "resource": 3,
+    "title": "Corey Shepard",
+    "job": "Tooth extraction",
+    "color": "#aba343"
+  },
+  {
+    "id": "job14",
+    "start": "2023-08-19T14:00",
+    "end": "2023-08-19T16:00",
+    "resource": 4,
+    "title": "Callie Leonard",
+    "job": "Crown and bridge",
+    "color": "#1ca11a",
+    "category": 2
+  },
+  {
+    "id": "job15",
+    "start": "2023-08-19T17:00",
+    "end": "2023-08-19T18:00",
     "resource": 4,
     "title": "Harley Thomson",
     "job": "Tartar removal",
     "color": "#a446b5"
   },
   {
-    "id": "job8",
-    "start": "2023-08-11T09:00",
-    "end": "2023-08-11T11:00",
+    "id": "job16",
+    "start": "2023-08-19T09:00",
+    "end": "2023-08-19T11:00",
     "resource": 1,
     "title": "Ricky Welch",
     "job": "Wisdom tooth removal",

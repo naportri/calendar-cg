@@ -58,11 +58,10 @@ const getCategory = (id: any) => {
 
 export const renderScheduleEvent = (data: any) => {
   const cat = getCategory(data.original.category);
-console.log(data)
   return (
     <div
       className="md-custom-event-cont"
-      style={{ borderLeft: "5px solid " + cat.border, background: cat.background, padding: '8px' }}
+      style={{ borderLeft: "5px solid " + cat.border, background: cat.background, padding: '8px', height: '100%', overflow: 'hidden' }}
     >
       <div className="md-custom-event-wrapper">
         <div
@@ -122,3 +121,7 @@ export const defaultColors = [
     },
   },
 ];
+
+/* Supported values: 1, 5, 10, 15, 20, 30, 60, 120, 180, 240, 360, 480, 720, 1440. In minutes */
+export const timeValues = [5, 10, 15, 20, 30, 60, 120] 
+

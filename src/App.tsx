@@ -22,7 +22,7 @@ import pendingAppointments from "./mockData/pendingAppointments.json";
 import employees from "./mockData/employees.json";
 import { Appointment } from "./components/Appointment";
 import "./App.css";
-import { resourceHeader, renderScheduleEvent, invalidHours, today, defaultColors } from "./utils";
+import { resourceHeader, renderScheduleEvent, invalidHours, today, defaultColors, timeValues } from "./utils";
 
 setOptions({
   locale: localeEs,
@@ -33,7 +33,7 @@ setOptions({
 const App: FC = () => {
   const [appointments, setAppointments] =
     useState<MbscCalendarEvent[]>(pendingAppointments);
-  const [timeZoom, setTimeZoom] = useState<number>(15);
+  const [timeZoom, setTimeZoom] = useState<number>(2);
 
   const view = useMemo<MbscEventcalendarView>(() => {
     return {
@@ -43,8 +43,8 @@ const App: FC = () => {
         startTime: "08:00",
         endTime: "20:00",
         allDay: false,
-        timeCellStep: timeZoom, // tiempo en el que se pone la linea del separado
-        timeLabelStep: timeZoom, // tiempo que se pone en la cuadricula lateral
+        timeCellStep: timeValues[timeZoom], // tiempo en el que se pone la linea del separado - Supported values: 1, 5, 10, 15, 20, 30, 60, 120, 180, 240, 360, 480, 720, 1440.
+        timeLabelStep: timeValues[timeZoom], // tiempo que se pone en la cuadricula lateral
       },
     };
   }, [timeZoom]);
@@ -178,14 +178,14 @@ const App: FC = () => {
     }
   }, []);
 
-  const onEventDragEnter = useCallback(() => {
+  /* const onEventDragEnter = useCallback(() => {
     setTimeZoom(5);
   }, []);
 
   const onEventDragLeave = useCallback(() => {
     setTimeZoom(15);
     setColors(defaultColors);
-  }, []);
+  }, []); */
 
   /* Funciones del Ascensor */
 
@@ -267,6 +267,18 @@ const App: FC = () => {
     setRefDate(dayjs(event.value).add(1, "days").format("YYYY-MM-DD"));
   }, []);
 
+  const onZoomInTime = () => {
+    if (timeZoom < timeValues.length - 1){
+      setTimeZoom(timeZoom + 1)
+    }
+  }
+
+  const onZoomOutTime = () => {
+    if (timeZoom > 0){
+      setTimeZoom(timeZoom - 1)
+    }
+  }
+
   return (
     <div className="mbsc-grid main-container">
       <div className="mbsc-row mbsc-justify-content-center">
@@ -278,6 +290,9 @@ const App: FC = () => {
           >
             Vista Doble
           </Button>
+          <Button variant="flat" onClick={onZoomOutTime} icon="minus"></Button>
+          <Button variant="flat" >{timeValues[timeZoom]}</Button>
+          <Button variant="flat" onClick={onZoomInTime} icon="plus"></Button>
         </div>
       </div>
       <div className="mbsc-row mbsc-justify-content-center">
@@ -310,8 +325,8 @@ const App: FC = () => {
                 colors={myColors} // Define colores de la columna, pueden declararse rangos horarios, o diferentes colores de fondo a diferentes recursos. Ej: Columna No Show podria ser diferente?
                 onEventCreate={onEventCreate}
                 onEventDelete={onEventDelete}
-                onEventDragEnter={onEventDragEnter}
-                onEventDragLeave={onEventDragLeave}
+                /* onEventDragEnter={onEventDragEnter}
+                onEventDragLeave={onEventDragLeave} */
                 showEventTooltip={false}
                 onEventHoverIn={onEventHoverIn}
                 onEventHoverOut={onEventHoverOut}
@@ -337,8 +352,8 @@ const App: FC = () => {
                   colors={myColors}
                   onEventCreate={onEventCreate}
                   onEventDelete={onEventDelete}
-                  onEventDragEnter={onEventDragEnter}
-                  onEventDragLeave={onEventDragLeave}
+                  /* onEventDragEnter={onEventDragEnter}
+                  onEventDragLeave={onEventDragLeave} */
                   showEventTooltip={true}
                   onEventHoverIn={onEventHoverIn}
                   onEventHoverOut={onEventHoverOut}

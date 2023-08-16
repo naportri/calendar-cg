@@ -1,4 +1,4 @@
-.main-container{
+.main-container {
   border: 3px solid #e4e4e4;
   border-radius: 12px;
   border-style: dashed;
@@ -12,7 +12,7 @@
 }
 
 .docs-appointment-calendar .mbsc-readonly-event {
-  opacity: .6;
+  opacity: 0.6;
 }
 
 .docs-appointment-cont {
@@ -43,7 +43,7 @@
   display: none;
 }
 
-.mbsc-ios.mbsc-schedule-date-header-text{
+.mbsc-ios.mbsc-schedule-date-header-text {
   font-size: 1.2rem;
 }
 
@@ -107,7 +107,6 @@
   justify-content: center;
   align-items: flex-end;
   padding: 5px 0px;
-
 }
 
 .resource-avatar {
@@ -119,4 +118,9 @@
 .resource-name {
   font-size: 16px;
   text-align: center;
+}
+
+.mbsc-schedule-event-custom {
+  height: 100%;
+  overflow: hidden;
 }
